@@ -1,0 +1,9 @@
+{
+    "name": "MemeGenerator",
+    "description": "Generates memes using builting images and user input",
+    "version": "1.0",
+    "default_enable": ["MemeGenerator"],
+    "homepage": "https://github.com/maikelwever/telex-memegenerator",
+    "repo": "https://github.com/maikelwever/telex-memegenerator.git",
+    "branch": "master"
+}

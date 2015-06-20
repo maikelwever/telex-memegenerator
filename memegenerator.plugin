@@ -1,0 +1,9 @@
+[Core]
+Name = MemeGenerator
+Module = memegenerator
+
+[Documentation]
+Author = Maikel Wever
+Version = 1.0
+Website = https://github.com/maikelwever/telex-memegenerator
+Description = Generates memes using builting images and user input
