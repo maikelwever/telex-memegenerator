@@ -24,11 +24,13 @@ class MemeGeneratorPlugin(plugin.TelexPlugin):
 
     patterns = {
         "^{prefix}memelist$": "list_memes",
+        "^{prefix}argumentinvalid$": "argument_invalid",
         '^{prefix}meme (?P<meme_name>[\w\d]+) (?P<top_text>".+") (?P<bottom_text>".+")$': "make_meme",
     }
 
     usage = [
         "{prefix}memelist : lists available memes",
+        "{prefix}argumentinvalid : gets a random 'argument invalid' meme",
         "{prefix}meme (memename) \"(top text)\" \"(bottom text)\" : makes beautiful meme. Quotes are mandatory",
     ]
 
@@ -44,7 +46,7 @@ class MemeGeneratorPlugin(plugin.TelexPlugin):
         memes_string = "Available memes:\n - " + "\n - ".join(self.meme_name_map.keys())
         peer.send_msg(memes_string, reply=msg.id, preview=False)
 
-    def argument_invalid(self, msg):
+    def argument_invalid(self, msg, matches=None):
         peer = self.bot.get_peer_to_send(msg)
         filename = random.choice(INVALID_FILES)
         tgl.send_photo(peer, filename)
