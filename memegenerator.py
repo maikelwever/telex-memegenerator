@@ -13,7 +13,7 @@ import tgl
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 FONT_FILE = os.path.join(THIS_DIR, "Impact.ttf")
 MEME_DIR = os.path.join(THIS_DIR, "memes")
-INVALID_DIR = os.path.join(THIS_DIR, "invalids")
+INVALID_DIR = os.path.join(THIS_DIR, "invalid")
 INVALID_FILES = glob.glob(os.path.join(INVALID_DIR, "*.jpg"))
 
 
