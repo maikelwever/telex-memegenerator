@@ -25,7 +25,8 @@ class MemeGeneratorPlugin(plugin.TelexPlugin):
     patterns = {
         "^{prefix}memelist$": "list_memes",
         "^{prefix}argumentinvalid$": "argument_invalid",
-        '^{prefix}meme (?P<meme_name>[\w\d]+) (?P<top_text>".+") (?P<bottom_text>".+")$': "make_meme",
+        '^{prefix}meme (?P<meme_name>[\w\d]+) (?P<top_text>".*") (?P<bottom_text>".*")$': "make_meme",
+        '^{prefix}meme (?P<meme_name>[\w\d]+) (?P<bottom_text>".*")$': "make_meme",
     }
 
     usage = [
@@ -53,9 +54,14 @@ class MemeGeneratorPlugin(plugin.TelexPlugin):
 
     def make_meme(self, msg, matches):
         groupdict = matches.groupdict()
+        groups = groupdict.keys()
+
+        if 'top_text' in groups:
+            top_text = groupdict['top_text'].strip('"').upper()
+        else:
+            top_text = ""
 
         meme_name = groupdict['meme_name'].lower()
-        top_text = groupdict['top_text'].strip('"').upper()
         bottom_text = groupdict['bottom_text'].strip('"').upper()
 
         if meme_name not in self.meme_name_map.keys():
