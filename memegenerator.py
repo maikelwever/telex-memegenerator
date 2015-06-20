@@ -25,7 +25,7 @@ class MemeGeneratorPlugin(plugin.TelexPlugin):
     patterns = {
         "^{prefix}memelist$": "list_memes",
         "^{prefix}argumentinvalid$": "argument_invalid",
-        '^{prefix}meme (?P<meme_name>[\w\d]+) (?P<top_text>".*") (?P<bottom_text>".*")$': "make_meme",
+        '^{prefix}meme (?P<meme_name>[\w\d]+) (?P<top_text>".+") (?P<bottom_text>".*")$': "make_meme",
         '^{prefix}meme (?P<meme_name>[\w\d]+) (?P<bottom_text>".*")$': "make_meme",
     }
 
