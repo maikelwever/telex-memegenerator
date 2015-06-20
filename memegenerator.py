@@ -23,21 +23,26 @@ class MemeGeneratorPlugin(plugin.TelexPlugin):
     """
 
     patterns = {
+        "^{prefix}memelist$": "list_memes",
         "^{prefix}meme (?P<meme_name>[\w\d]+) (?P<top_text>\".+\") (?P<bottom_text>\".+\")$": "make_meme",
     }
 
     usage = [
+        "{prefix}memelist : lists available memes",
         "{prefix}meme (memename) \"(top text)\" \"(bottom text)\" : makes beautiful meme. Quotes are mandatory",
     ]
 
     meme_name_map = {
         "skiinstructor": "skiinstructor.png",
-
+        "aliens": "aliens.jpg",
+        "sap": "sap.jpg",
+        "successkid": "successkid.jpg",
     }
 
-    def do_stuff(self, msg, matches):
+    def list_memes(self, msg, matches):
         peer = self.bot.get_peer_to_send(msg)
-        peer.send_msg("Stuff is done", reply=msg.id, preview=False)
+        memes_string = "Available memes:\n - " + "\n - ".join(self.meme_name_map.keys())
+        peer.send_msg(memes_string, reply=msg.id, preview=False)
 
     def argument_invalid(self, msg):
         peer = self.bot.get_peer_to_send(msg)
@@ -102,6 +107,6 @@ class MemeGeneratorPlugin(plugin.TelexPlugin):
             if success:
                 os.remove(filename)
             else:
-                return "MemeGenerator: something went wrong."
+                return self.argument_invalid(msg)
 
         tgl.send_photo(peer, filename, cleanup_cb)
