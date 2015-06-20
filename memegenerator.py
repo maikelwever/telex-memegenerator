@@ -53,8 +53,8 @@ class MemeGeneratorPlugin(plugin.TelexPlugin):
         groupdict = matches.groupdict()
 
         meme_name = groupdict['meme_name'].lower()
-        top_text = groupdict['top_text'].upper()
-        bottom_text = groupdict['bottom_text'].upper()
+        top_text = groupdict['top_text'].strip('"').upper()
+        bottom_text = groupdict['bottom_text'].strip('"').upper()
 
         if meme_name not in self.meme_name_map.keys():
             return self.argument_invalid(msg)
