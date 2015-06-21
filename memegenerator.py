@@ -44,8 +44,7 @@ class MemeGeneratorPlugin(plugin.TelexPlugin):
 
     def list_memes(self, msg, matches):
         peer = self.bot.get_peer_to_send(msg)
-        memes_string = "Available memes:\n - " + "\n - ".join(MEME_NAMES)
-        peer.send_msg(memes_string, reply=msg.id, preview=False)
+        return "Available memes:\n - " + "\n - ".join(MEME_NAMES)
 
     def argument_invalid(self, msg, matches=None):
         peer = self.bot.get_peer_to_send(msg)
