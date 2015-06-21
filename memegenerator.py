@@ -33,11 +33,13 @@ class MemeGeneratorPlugin(plugin.TelexPlugin):
     patterns = {
         "^{prefix}memelist$": "list_memes",
         "^{prefix}argumentinvalid$": "argument_invalid",
+        '^{prefix}memesearch ([\w\d]+)$': "search_meme",
         '^{prefix}meme (?P<meme_name>[\w\d]+) (?P<top_text>".+") (?P<bottom_text>".*")$': "make_meme",
     }
 
     usage = [
         "{prefix}memelist : lists available memes",
+        "{prefix}memesearch (x): searches within available memes for meme which has x in its name",
         "{prefix}argumentinvalid : gets a random 'argument invalid' meme",
         "{prefix}meme (memename) \"(top text)\" \"(bottom text)\" : makes beautiful meme. Quotes are mandatory",
     ]
@@ -45,6 +47,16 @@ class MemeGeneratorPlugin(plugin.TelexPlugin):
     def list_memes(self, msg, matches):
         peer = self.bot.get_peer_to_send(msg)
         text = "Please refer to: https://github.com/maikelwever/telex-memegenerator/tree/master/apimeme"
+        peer.send_msg(text, reply=msg.id, preview=False)
+
+    def search_memes(self, msg, matches):
+        peer = self.bot.get_peer_to_send(msg)
+        query = matches.group(1)
+
+        text = "\n".join(name for name in MEME_NAMES if query in name)
+        if not text:
+            text = "Not found :("
+
         peer.send_msg(text, reply=msg.id, preview=False)
 
     def argument_invalid(self, msg, matches=None):
