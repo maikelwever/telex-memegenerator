@@ -19,7 +19,7 @@ INVALID_DIR = os.path.join(THIS_DIR, "invalid")
 INVALID_FILES = glob.glob(os.path.join(INVALID_DIR, "*.jpg"))
 
 MEME_NAME_MAP = {}
-with open("mapping.json", "r") as f:
+with open(os.path.join(THIS_DIR, "mapping.json"), "r") as f:
     MEME_NAME_MAP = json.loads(f.read())
 
 MEME_NAMES = MEME_NAME_MAP.keys()
