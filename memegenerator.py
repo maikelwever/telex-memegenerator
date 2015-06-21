@@ -4,6 +4,7 @@ from PIL import ImageDraw
 from telex import plugin
 from tempfile import mkstemp
 
+import json
 import glob
 import os
 import random
@@ -12,9 +13,16 @@ import tgl
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 FONT_FILE = os.path.join(THIS_DIR, "Impact.ttf")
-MEME_DIR = os.path.join(THIS_DIR, "memes")
+# MEME_DIR = os.path.join(THIS_DIR, "memes")
+MEME_DIR = os.path.join(THIS_DIR, "apimeme")
 INVALID_DIR = os.path.join(THIS_DIR, "invalid")
 INVALID_FILES = glob.glob(os.path.join(INVALID_DIR, "*.jpg"))
+
+MEME_NAME_MAP = {}
+with open("mapping.json", "r") as f:
+    MEME_NAME_MAP = json.loads(f.read())
+
+MEME_NAMES = MEME_NAME_MAP.keys()
 
 
 class MemeGeneratorPlugin(plugin.TelexPlugin):
@@ -34,16 +42,9 @@ class MemeGeneratorPlugin(plugin.TelexPlugin):
         "{prefix}meme (memename) \"(top text)\" \"(bottom text)\" : makes beautiful meme. Quotes are mandatory",
     ]
 
-    meme_name_map = {
-        "skiinstructor": "skiinstructor.png",
-        "aliens": "aliens.jpg",
-        "sap": "sap.jpg",
-        "successkid": "successkid.jpg",
-    }
-
     def list_memes(self, msg, matches):
         peer = self.bot.get_peer_to_send(msg)
-        memes_string = "Available memes:\n - " + "\n - ".join(self.meme_name_map.keys())
+        memes_string = "Available memes:\n - " + "\n - ".join(MEME_NAMES)
         peer.send_msg(memes_string, reply=msg.id, preview=False)
 
     def argument_invalid(self, msg, matches=None):
@@ -58,10 +59,10 @@ class MemeGeneratorPlugin(plugin.TelexPlugin):
         top_text = groupdict['top_text'].strip('"').upper()
         bottom_text = groupdict['bottom_text'].strip('"').upper()
 
-        if meme_name not in self.meme_name_map.keys():
+        if meme_name not in MEME_NAMES:
             return self.argument_invalid(msg)
 
-        img = Image.open(os.path.join(THIS_DIR, MEME_DIR, self.meme_name_map[meme_name]))
+        img = Image.open(os.path.join(THIS_DIR, MEME_DIR, MEME_NAME_MAP[meme_name]))
         image_size = img.size
 
         # find biggest possible font size
