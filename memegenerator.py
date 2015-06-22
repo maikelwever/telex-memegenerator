@@ -33,8 +33,8 @@ class MemeGeneratorPlugin(plugin.TelexPlugin):
     patterns = {
         "^{prefix}memelist$": "list_memes",
         "^{prefix}argumentinvalid$": "argument_invalid",
-        '^{prefix}memesearch ([\w\d]+)$': "search_memes",
-        '^{prefix}meme (?P<meme_name>[\w\d]+) (?P<top_text>".+") (?P<bottom_text>".*")$': "make_meme",
+        '^{prefix}memesearch (\w+)$': "search_memes",
+        '^{prefix}meme\s*(?P<meme_name>\w+)\s*(?:"(?P<top_text>\w*)")*\s*(?:"(?P<bottom_text>\w*)")*$': "make_meme",
     }
 
     usage = [
@@ -68,8 +68,10 @@ class MemeGeneratorPlugin(plugin.TelexPlugin):
         groupdict = matches.groupdict()
 
         meme_name = groupdict['meme_name'].lower()
-        top_text = groupdict['top_text'].strip('"').upper()
-        bottom_text = groupdict['bottom_text'].strip('"').upper()
+        top_text = groupdict['top_text'] or ""
+        bottom_text = groupdict['bottom_text'] or ""
+        top_text = top_text.upper()
+        bottom_text = bottom_text.upper()
 
         if meme_name not in MEME_NAMES:
             return self.argument_invalid(msg)
