@@ -34,7 +34,7 @@ class MemeGeneratorPlugin(plugin.TelexPlugin):
         "^{prefix}memelist$": "list_memes",
         "^{prefix}argumentinvalid$": "argument_invalid",
         '^{prefix}memesearch (\w+)$': "search_memes",
-        '^{prefix}meme\s*(?P<meme_name>\w+)\s*(?:"(?P<top_text>[\d\s\w]*)")*\s*(?:"(?P<bottom_text>[\d\s\w]*)")*$': "make_meme",
+        '^{prefix}meme\s*(?P<meme_name>\w+)\s*(?:"(?P<top_text>[\p\d\s\w]*)")*\s*(?:"(?P<bottom_text>[\p\d\s\w]*)")*$': "make_meme",
     }
 
     usage = [
